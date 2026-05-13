@@ -1,0 +1,56 @@
+==========================================================
+  DATA QUALITY REPORT — City of Cape Town Tender Awards
+  Generated: 2026-05-13 21:16
+==========================================================
+
+── ROW COUNTS ──────────────────────────────────────────
+  Staging rows:              24
+  Fact table rows:           24
+  dim_department entries:    16
+  dim_status entries:        6
+  dim_financial_year entries:1
+  dim_vendor entries:        21
+
+── NULL CHECKS (key fact table columns) ────────────────
+  decision_date missing           OK
+  department_id missing           OK
+  status_id missing               OK
+  year_id missing                 NOTE: 1 rows null
+  award_value missing             NOTE: 23 rows null
+  budget_value missing            NOTE: 21 rows null
+
+── DUPLICATE CHECK ─────────────────────────────────────
+  No duplicate tender_ids found  OK
+
+── STATUS BREAKDOWN ────────────────────────────────────
+  Active Contract                      8
+  Appeals                              6
+  Report Ready                         4
+  Cancelled                            2
+  Preferred Bidder                     2
+  Drafting PB Report                   2
+
+── TENDERS BY DEPARTMENT ───────────────────────────────
+  Corporate Services - Information Systems & Technolog  5
+  CORPORATE SERVICES - Fleet Management                 3
+  FINANCE - Supply Chain Management                     2
+  Water & Sanitation - Distribution Services            2
+  COMMUNITY SERVICES & HEALTH - City Health             1
+  CORPORATE SERVICES - Human Resources                  1
+  ECONOMIC GROWTH - Property Transactions               1
+  Energy - Electricity Generation & Distribution        1
+  ENERGY - Electricity Generation & Distribution        1
+  HUMAN SETTLEMENTS - Housing Development               1
+  Human Settlements - Informal Settlements              1
+  OFFICE OF THE CITY MANAGER - Internal Audit           1
+  Office of the City Manager - Legal Services           1
+  SAFETY & SECURITY - Metropolitan Police Services      1
+  Spatial Planning & Environment - MURP                 1
+  URBAN MOBILITY - Transport Planning & Network Manage  1
+
+── KNOWN DATA LIMITATIONS (not errors) ─────────────────
+  award_value: NULL for most rows
+  Reason: BAC register records decisions in progress;
+  SAP only receives final values after contract signature.
+  bbbee_level: 0% populated — not in Open Data export.
+  Mitigation: documented in postmortem. Phase 2 = SAP join.
