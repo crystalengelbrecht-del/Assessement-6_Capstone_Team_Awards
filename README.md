@@ -1,4 +1,4 @@
-# Assessment 6 — End-to-End Capstone: Ingest to Insight
+# Assessment 6 - End-to-End Capstone: Ingest to Insight
 
 ## Dataset
 **City of Cape Town — Tender Awards**  
