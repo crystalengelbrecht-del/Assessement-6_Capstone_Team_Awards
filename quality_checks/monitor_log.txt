@@ -1,1 +1,91 @@
 2026-05-13 21:25 | Rows: 24 | Row check: OK | Freshness: OK
+
+==========================================================
+RUN: 2026-05-24 11:11 | Status: FAILURES DETECTED ❌
+── ENVIRONMENT FILE CHECK ──────────────────────────────
+  ✅ DEV  (01_Development.pbix)          OK — file found
+  ✅ TEST (02_Test.pbix)                 OK — file found
+  ✅ PROD (03_Production.pbix)           OK — file found
+── DATA SOURCE FILE CHECK ──────────────────────────────
+  ✅ DEV  data source               OK — file found
+  ✅ TEST data source               OK — file found
+  ✅ PROD data source               OK — file found
+── MYSQL DATA HEALTH CHECK ─────────────────────────────
+  ALERT — Could not connect to MySQL: 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+── OVERALL STATUS: FAILURES DETECTED ❌
+  >>> MySQL connection FAILED: 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+  >>> EMAIL FAILED: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-49042cebaaasm58416425e9.36 - gsmtp')
+
+==========================================================
+RUN: 2026-05-24 11:18 | Status: FAILURES DETECTED ❌
+── ENVIRONMENT FILE CHECK ──────────────────────────────
+  ✅ DEV  (01_Development.pbix)          OK — file found
+  ✅ TEST (02_Test.pbix)                 OK — file found
+  ✅ PROD (03_Production.pbix)           OK — file found
+── DATA SOURCE FILE CHECK ──────────────────────────────
+  ✅ DEV  data source               OK — file found
+  ✅ TEST data source               OK — file found
+  ✅ PROD data source               OK — file found
+── MYSQL DATA HEALTH CHECK ─────────────────────────────
+  Fact table rows      : OK — 24 rows
+  Data freshness       : ALERT — data is 10 days old (max allowed: 7)
+  Null decision_date   : OK
+  Null department_id   : OK
+── OVERALL STATUS: FAILURES DETECTED ❌
+  >>> Data freshness FAILED: 10 days old
+  >>> EMAIL FAILED: (534, b'5.7.9 Application-specific password required. For more information, go to\n5.7.9  https://support.google.com/mail/?p=InvalidSecondFactor ffacd0b85a97d-45eb6c9f598sm18735733f8f.6 - gsmtp')
+
+==========================================================
+RUN: 2026-05-24 11:26 | Status: FAILURES DETECTED ❌
+── ENVIRONMENT FILE CHECK ──────────────────────────────
+  ✅ DEV  (01_Development.pbix)          OK — file found
+  ✅ TEST (02_Test.pbix)                 OK — file found
+  ✅ PROD (03_Production.pbix)           OK — file found
+── DATA SOURCE FILE CHECK ──────────────────────────────
+  ✅ DEV  data source               OK — file found
+  ✅ TEST data source               OK — file found
+  ✅ PROD data source               OK — file found
+── MYSQL DATA HEALTH CHECK ─────────────────────────────
+  Fact table rows      : OK — 24 rows
+  Data freshness       : ALERT — data is 10 days old (max allowed: 7)
+  Null decision_date   : OK
+  Null department_id   : OK
+── OVERALL STATUS: FAILURES DETECTED ❌
+  >>> Data freshness FAILED: 10 days old
+  >>> EMAIL ALERT SENT to crystal.engelbrecht@umuzi.org at 2026-05-24 11:26
+
+==========================================================
+RUN: 2026-05-24 11:30 | Status: FAILURES DETECTED ❌
+── ENVIRONMENT FILE CHECK ──────────────────────────────
+  ✅ DEV  (01_Development.pbix)          OK — file found
+  ✅ TEST (02_Test.pbix)                 OK — file found
+  ✅ PROD (03_Production.pbix)           OK — file found
+── DATA SOURCE FILE CHECK ──────────────────────────────
+  ✅ DEV  data source               OK — file found
+  ✅ TEST data source               OK — file found
+  ✅ PROD data source               OK — file found
+── MYSQL DATA HEALTH CHECK ─────────────────────────────
+  Fact table rows      : OK — 24 rows
+  Data freshness       : ALERT — data is 10 days old (max allowed: 7)
+  Null decision_date   : OK
+  Null department_id   : OK
+── OVERALL STATUS: FAILURES DETECTED ❌
+  >>> Data freshness FAILED: 10 days old
+  >>> EMAIL ALERT SENT to crystal.engelbrecht@umuzi.org at 2026-05-24 11:30
+
+==========================================================
+RUN: 2026-05-24 11:34 | Status: ALL CHECKS PASSED ✅
+── ENVIRONMENT FILE CHECK ──────────────────────────────
+  ✅ DEV  (01_Development.pbix)          OK — file found
+  ✅ TEST (02_Test.pbix)                 OK — file found
+  ✅ PROD (03_Production.pbix)           OK — file found
+── DATA SOURCE FILE CHECK ──────────────────────────────
+  ✅ DEV  data source               OK — file found
+  ✅ TEST data source               OK — file found
+  ✅ PROD data source               OK — file found
+── MYSQL DATA HEALTH CHECK ─────────────────────────────
+  Fact table rows      : OK — 24 rows
+  Data freshness       : OK — 0 days old
+  Null decision_date   : OK
+  Null department_id   : OK
+── OVERALL STATUS: ALL CHECKS PASSED ✅

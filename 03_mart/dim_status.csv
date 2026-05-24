@@ -1,0 +1,7 @@
+status_id,status_code,status_label
+1,"20. Cancelled",Cancelled
+2,"10. Preferred Bidder","Preferred Bidder"
+3,"16. Active Contract","Active Contract"
+4,"12. Appeals",Appeals
+5,"11. Report Ready","Report Ready"
+6,"09. Drafting PB Report","Drafting PB Report"

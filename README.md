@@ -1,7 +1,7 @@
-# Assessment 6 — End-to-End Capstone: Ingest to Insight
+# Assessment 6 - End-to-End Capstone: Ingest to Insight
 
 ## Dataset
-**City of Cape Town — Tender Awards**  
+**City of Cape Town - Tender Awards**  
 Contracts awarded to contractors with a value of more than R200 000.  
 Source: City of Cape Town Open Data Portal (Corporate GIS)
 
@@ -10,62 +10,98 @@ Source: City of Cape Town Open Data Portal (Corporate GIS)
 |------|---------|
 | VSCode | Writing and running Python scripts |
 | MySQL Workbench | Staging and mart database (star schema) |
-| GitHub | Repository and version control |
-| Power BI Desktop | Reporting and visualisation (free app) |
+| GitHub Desktop | Version control and repository management |
+| Power BI Desktop | Reporting and visualisation (free - no licence required) |
 
 ## Folder Structure
 ```
-capstone_tender_awards/
-├── 01_raw_data/          ← Original CSV (never edited)
-├── 02_staging/           ← Python writes watermark file here
-├── 03_mart/              ← mart_tender_awards.csv for Power BI
-├── 04_quality_checks/    ← quality_report.txt + monitor_log.txt
-├── 05_powerbi/           ← .pbix files (DEV / TEST / PROD)
-├── 06_sql/               ← All MySQL scripts
-├── 07_screenshots/       ← All pipeline screenshots
-├── 08_documentation/     ← Word docs: Step-by-Step Guide, Data Quality Report, Prompt Reflection Log
-├── 02_ingest.py          ← Main ingest script (incremental)
-├── 03_quality_check.py   ← Data quality checks
-├── 04_monitor.py         ← Monitoring and alert script
-└── README.md             ← This file
+Assessement 6_Capstone_Team_Awards/
+├── raw_data/                 ← Original CSV (never edited)
+├── 02_staging/               ← Python watermark file (last_load.txt)
+├── 03_mart/                  ← All dimension and fact CSVs for Power BI
+│   ├── fact_tender_awards.csv
+│   ├── dim_department.csv
+│   ├── dim_status.csv
+│   ├── dim_financial_year.csv
+│   ├── dim_vendor.csv
+│   ├── dim_award_type.csv
+│   └── mart_tender_awards.csv
+├── data/
+│   ├── dev/                  ← mart_tender_awards_dev.csv
+│   ├── test/                 ← mart_tender_awards_test.csv
+│   └── prod/                 ← mart_tender_awards_prod.csv
+├── quality_checks/           ← quality_report.txt + monitor_log.txt
+├── powerbi/
+│   ├── 01_Development.pbix   ← Development environment
+│   ├── 02_Test.pbix          ← Test environment (Power Query validation checks)
+│   └── 03_Production.pbix    ← Production environment (final polished report)
+├── sql/                      ← All MySQL scripts
+├── screenshots/              ← All pipeline and evidence screenshots
+├── docs/                     ← Data Quality Report + Prompt Reflection Log
+├── ingest.py                 ← Incremental ingest script
+├── quality_check.py          ← Data quality checks against MySQL
+├── monitoring.py             ← Environment monitor + email alert script
+├── promotion_log.md          ← DEV→TEST→PROD promotion log + rollback documentation
+├── .gitignore                ← Prevents .env from uploading to GitHub
+└── README.md                 ← This file
 ```
 
 ## How to Run (in order)
 
 ### Step 1: Set up MySQL
-Open MySQL Workbench → run `06_sql/01_create_tables.sql`
+Open MySQL Workbench → run `sql/create_tables.sql`
 
-### Step 2: Load data
+### Step 2: Load data incrementally
 ```bash
-python 02_ingest.py
+python ingest.py
 ```
 
-### Step 3: Quality check
+### Step 3: Run quality checks
 ```bash
-python 03_quality_check.py
+python quality_check.py
 ```
 
-### Step 4: Monitor
+### Step 4: Run environment monitor
 ```bash
-python 04_monitor.py
+python monitoring.py
 ```
+Sends email alert if any check fails. Credentials stored in `.env` (not committed to GitHub).
 
-### Step 5: Export mart
-Run `06_sql/03_mart_export.sql` in MySQL Workbench → export results as CSV → save to `03_mart/mart_tender_awards.csv`
+### Step 5: Export mart from MySQL
+Run `sql/mart_export.sql` in MySQL Workbench → export results as CSV to `03_mart/`
 
 ### Step 6: Open Power BI
-Load `03_mart/mart_tender_awards.csv` into Power BI Desktop (free — no sign-in required)
+Load CSVs from `03_mart/` into Power BI Desktop. No sign-in required.
 
-## Star Schema
-- **Fact table:** `fact_tender_awards` — one row per BAC tender decision
-- **dim_department** — City department + director name
-- **dim_status** — 6 tender statuses (Active Contract, Preferred Bidder, etc.)
-- **dim_financial_year** — Financial year lookup
-- **dim_vendor** — Vendor / contractor names
+## Star Schema (MySQL - capstone_tenders database)
+| Table | Type | Description |
+|-------|------|-------------|
+| fact_tender_awards | Fact | One row per BAC tender decision — the grain |
+| dim_department | Dimension | City department + director name (16 departments) |
+| dim_status | Dimension | 6 tender pipeline statuses |
+| dim_financial_year | Dimension | Financial year lookup |
+| dim_vendor | Dimension | Vendor / contractor names (21 vendors) |
+| dim_award_type | Dimension | Award decision type: Competitive, Amendment, Cancellation etc. |
+
+## Deployment Pipeline (Simulated)
+| Environment | File | Data Source |
+|-------------|------|-------------|
+| Development | powerbi/01_Development.pbix | data/dev/mart_tender_awards_dev.csv |
+| Test | powerbi/02_Test.pbix | data/test/mart_tender_awards_test.csv |
+| Production | powerbi/03_Production.pbix | data/prod/mart_tender_awards_prod.csv |
+
+See `promotion_log.md` for full promotion and rollback documentation.
+
+## Monitoring and Alerts
+- Script: `monitoring.py`
+- Checks: all 3 .pbix files exist, MySQL row count >= 20, data freshness <= 7 days, null checks on key columns
+- Alert: sends email via Gmail SMTP when any check fails
+- Log: `quality_checks/monitor_log.txt`
+- Credentials: stored in `.env` (excluded from GitHub via `.gitignore`)
 
 ## Data Quality Notes
-See `04_quality_checks/quality_report.txt`  
-Full report: `08_documentation/02_Data_Quality_Report.docx`
+See `quality_checks/quality_report.txt`  
+Full report: `docs/Data_Quality_Report.docx`
 
 ## Known Limitation
 Award values are NULL for most rows. This is expected — the source dataset is the BAC decisions register, not the contracts register. Fixed values only appear in SAP after contract signature. See postmortem in Data Quality Report.

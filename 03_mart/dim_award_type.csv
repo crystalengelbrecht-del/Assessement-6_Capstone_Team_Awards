@@ -1,0 +1,7 @@
+award_type_id,award_reason,award_category,award_description
+1,"Award: Highest Adjudication Points","Competitive Award","Awarded to highest scoring bidder through open competition"
+2,"Preferred Bidder","Competitive Award","Bidder selected as preferred — contract not yet signed"
+3,"Award: New Panel","Panel Award","New panel of approved suppliers established for future use"
+4,Amendment,"Contract Change","Existing contract is being changed or extended"
+5,Expansion,"Contract Change","Existing contract scope or value is being expanded"
+6,Cancellation,Cancellation,"Tender was cancelled — no award made"
