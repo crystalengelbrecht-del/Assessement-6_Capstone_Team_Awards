@@ -104,4 +104,4 @@ See `quality_checks/quality_report.txt`
 Full report: `docs/Data_Quality_Report.docx`
 
 ## Known Limitation
-Award values are NULL for most rows. This is expected — the source dataset is the BAC decisions register, not the contracts register. Fixed values only appear in SAP after contract signature. See postmortem in Data Quality Report.
+Award values are NULL for most rows. This is expected - the source dataset is the BAC decisions register, not the contracts register. Fixed values only appear in SAP after contract signature. See postmortem in Data Quality Report.
